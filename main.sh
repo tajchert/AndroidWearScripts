@@ -13,10 +13,23 @@ adb forward tcp:4444 localabstract:/adb-hub; adb connect localhost:4444" > conne
 	fi
 }
 
+function generateForwardScript {
+	if [ "$1" != "" ]; then
+	  echo -e "#!/bin/bash
+adb -s " $1 " $1" > forward.sh
+	else
+	  echo -e "#!/bin/bash
+adb -s localhost:4444 $1" > forward.sh
+	fi
+	chmod 777 forward.sh
+	echo "Generated forward script"
+}
+
+
 function generateInstallScript {
 	if [ "$1" != "" ]; then
 	  echo -e "#!/bin/bash
-adb -s" $1 " install $1" > install.sh
+adb -s " $1 " install $1" > install.sh
 	else
 	  echo -e "#!/bin/bash
 adb -s localhost:4444 install $1" > install.sh
@@ -28,7 +41,7 @@ adb -s localhost:4444 install $1" > install.sh
 function generateUninstallScript {
 	if [ "$1" != "" ]; then
 	  echo -e "#!/bin/bash
-adb -s" $1 " uninstall $1" > uninstall.sh
+adb -s " $1 " uninstall $1" > uninstall.sh
 	else
 	  echo -e "#!/bin/bash
 adb -s localhost:4444 uninstall $1" > uninstall.sh
@@ -40,7 +53,7 @@ adb -s localhost:4444 uninstall $1" > uninstall.sh
 function generateListPackagesScript {
 	if [ "$1" != "" ]; then
 	  echo -e "#!/bin/bash
-adb -s" $1 " shell 'pm list packages -f' | sed -e 's/.*=//' | sort" > listPackages.sh
+adb -s " $1 " shell 'pm list packages -f' | sed -e 's/.*=//' | sort" > listPackages.sh
 	else
 	  echo -e "#!/bin/bash
 adb -s localhost:4444 shell 'pm list packages -f' | sed -e 's/.*=//' | sort" > listPackages.sh
@@ -69,6 +82,7 @@ echo Screenshot: screenshot\$RANDOM.png" > screenshot.sh
 
 connect
 generateInstallScript $1
+generateForwardScript $1
 generateUninstallScript $1
 generateListPackagesScript $1
 generateScreenshotScript $1
