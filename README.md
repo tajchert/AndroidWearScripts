@@ -16,6 +16,10 @@ It connects to your watch and generate scripts for most used actions for that co
 
 **uninstall package_name** - be carefoul with it.
 
+**forward** - just type `./forward.sh your_command_here` to pass it to Wear.
+
+All script file are visible after running main.sh (instrucions below).
+
 
 ###How to run
 
