@@ -52,18 +52,16 @@ adb -s localhost:4444 shell 'pm list packages -f' | sed -e 's/.*=//' | sort" > l
 function generateScreenshotScript {
 	if [ "$1" != "" ]; then
   	  echo -e "#!/bin/bash
-rand=\$RANDOM
-adb -s " $1 " shell screencap -p /sdcard/screenshot\$rand.png
+adb -s " $1 " shell screencap -p /sdcard/screenshot.png
 sleep 1
-adb -s " $1 " pull /sdcard/screenshot\$rand.png
-echo Screenshot: screenshot\$rand.png" > screenshot.sh
+adb -s " $1 " pull /sdcard/screenshot.png
+echo Screenshot: screenshot\$RANDOM.png" > screenshot.sh
 	else
 	  echo -e "#!/bin/bash
-rand=\$RANDOM
-adb -s localhost:4444 shell screencap -p /sdcard/screenshot\$rand.png
+adb -s localhost:4444 shell screencap -p /sdcard/screenshot.png
 sleep 1
-adb -s localhost:4444 pull /sdcard/screenshot\$rand.png
-echo Screenshot: screenshot\$rand.png" > screenshot.sh
+adb -s localhost:4444 pull /sdcard/screenshot.png
+echo Screenshot: screenshot\$RANDOM.png" > screenshot.sh
 	fi
 	chmod 777 screenshot.sh
 	echo "Generated screenshot script"
