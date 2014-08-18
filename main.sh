@@ -65,20 +65,20 @@ adb -s localhost:4444 shell 'pm list packages -f' | sed -e 's/.*=//' | sort" > l
 function generateScreenshotScript {
 	if [ "$1" != "" ]; then
   	  echo -e "#!/bin/bash
-today=`date +%Y-%m-%d-%H-%M-%S`
-adb -s " $1 " shell screencap -p /sdcard/screenshot\$today.png
+today="\`date +%Y-%m-%d-%H-%M-%S\`"
+adb -s " $1 " shell screencap -p /sdcard/screenshot"\$today.png"
 sleep 1
-adb -s " $1 " pull /sdcard/screenshot\$today.png
-adb -s localhost:4444 shell rm -r /sdcard/screenshot\$today.png
-echo Screenshot: screenshot\$today.png" > screenshot.sh
+adb -s " $1 " pull /sdcard/screenshot"\$today.png"
+adb -s localhost:4444 shell rm -r /sdcard/screenshot"\$today.png"
+echo Screenshot: screenshot"\$today.png"" > screenshot.sh
 	else
 	  echo -e "#!/bin/bash
-today=`date +%Y-%m-%d-%H-%M-%S`
-adb -s localhost:4444 shell screencap -p /sdcard/screenshot\$today.png
+today="\`date +%Y-%m-%d-%H-%M-%S\`"
+adb -s localhost:4444 shell screencap -p /sdcard/screenshot"\$today.png"
 sleep 1
-adb -s localhost:4444 pull /sdcard/screenshot\$today.png
-adb -s localhost:4444 shell rm -r /sdcard/screenshot\$today.png
-echo Screenshot: screenshot\$today.png" > screenshot.sh
+adb -s localhost:4444 pull /sdcard/screenshot"\$today.png"
+adb -s localhost:4444 shell rm -r /sdcard/screenshot"\$today.png"
+echo Screenshot: screenshot"\$today.png"" > screenshot.sh
 	fi
 	chmod 777 screenshot.sh
 	echo "Generated screenshot script"
